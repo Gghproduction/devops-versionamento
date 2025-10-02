@@ -1,0 +1,38 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:     # permite rodar manualmente para testes
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Set version
+        id: set_version
+        run: |
+          # Defina Major/Minor aqui (mude se quiser)
+          MAJOR=1
+          MINOR=0
+          # PAD com 3 dígitos (001, 002, ...)
+          PATCH=$(printf "%03d" "${GITHUB_RUN_NUMBER}")
+          VERSION="${MAJOR}.${MINOR}.${PATCH}"
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+          echo "Gerando versão: ${VERSION}"
+
+      - name: Build and Push Docker image
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
+          image: Gghproduction/devops-versionamento
+          tags: ${{ env.VERSION }},latest
+          registry: docker.io
+          dockerfile: Dockerfile
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
