@@ -32,6 +32,6 @@ jobs:
           image: gghproduction/devops-versionamento   # <--- tudo minúsculo
           tags: ${{ env.VERSION }},latest
           registry: docker.io
-          dockerfile: ./devops-versionamento/Dockerfile   # <--- remover o -f
+          dockerfile: Dockerfile   # <--- remover o -f
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
