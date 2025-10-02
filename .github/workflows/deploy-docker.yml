@@ -32,7 +32,7 @@ jobs:
           image: Gghproduction/devops-versionamento
           tags: ${{ env.VERSION }},latest
           registry: docker.io
-          dockerfile: Dockerfile
+          dockerfile: ./devops-versionamento/Dockerfile
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
     
